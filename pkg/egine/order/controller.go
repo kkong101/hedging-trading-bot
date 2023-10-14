@@ -209,12 +209,12 @@ func (c *Controller) Stop() {
 	}
 }
 
-func (c *Controller) GetAccount() (model.Account, error) {
-	return c.exchange.GetAccount()
+func (c *Controller) Account() (model.Account, error) {
+	return c.exchange.Account()
 }
 
-func (c *Controller) GetPosition(pair string) (asset, quote float64, err error) {
-	return c.exchange.GetPosition(pair)
+func (c *Controller) Position(pair string) (asset, quote float64, err error) {
+	return c.exchange.Position(pair)
 }
 
 func (c *Controller) LastQuote(pair string) (float64, error) {
@@ -222,7 +222,7 @@ func (c *Controller) LastQuote(pair string) (float64, error) {
 }
 
 func (c *Controller) PositionValue(pair string) (float64, error) {
-	asset, _, err := c.exchange.GetPosition(pair)
+	asset, _, err := c.exchange.Position(pair)
 	if err != nil {
 		return 0, err
 	}

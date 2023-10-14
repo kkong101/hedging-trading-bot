@@ -6,6 +6,17 @@ import (
 	"time"
 )
 
+type TelegramSettings struct {
+	Enabled bool
+	Token   string
+	Users   []int
+}
+
+type Settings struct {
+	Pairs    []string
+	Telegram TelegramSettings
+}
+
 type Candle struct {
 	Pair      string
 	Time      time.Time
@@ -103,4 +114,30 @@ func (a Account) Equity() float64 {
 	}
 
 	return total
+}
+
+func (df Dataframe) Sample(positions int) Dataframe {
+	size := len(df.Time)
+	start := size - positions
+	if start <= 0 {
+		return df
+	}
+
+	sample := Dataframe{
+		Pair:       df.Pair,
+		Close:      df.Close.LastValues(positions),
+		Open:       df.Open.LastValues(positions),
+		High:       df.High.LastValues(positions),
+		Low:        df.Low.LastValues(positions),
+		Volume:     df.Volume.LastValues(positions),
+		Time:       df.Time[start:],
+		LastUpdate: df.LastUpdate,
+		Metadata:   make(map[string]Series[float64]),
+	}
+
+	for key := range df.Metadata {
+		sample.Metadata[key] = df.Metadata[key].LastValues(positions)
+	}
+
+	return sample
 }

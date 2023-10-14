@@ -1,9 +1,5 @@
 package model
 
-type Settings struct {
-	Pairs []string
-}
-
 type Account struct {
 	Balances []Balance
 }

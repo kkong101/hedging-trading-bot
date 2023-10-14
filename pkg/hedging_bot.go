@@ -5,9 +5,16 @@ import (
 	"modelH/pkg/egine/exchange"
 	"modelH/pkg/egine/order"
 	_service "modelH/pkg/egine/serivce"
+	"modelH/pkg/egine/strategy"
 	"modelH/pkg/model"
 )
 
+// OrderSubscriber is an interface for receiving order events.
+type OrderSubscriber interface {
+	OnOrder(model.Order)
+}
+
+// CandleSubscriber is an interface for receiving candle events.
 type CandleSubscriber interface {
 	OnCandle(model.Candle)
 }
@@ -16,9 +23,11 @@ type HedgingBot struct {
 	exchange _service.Exchange
 
 	settings            model.Settings
+	strategy            strategy.Strategy
 	OrderController     *order.Controller
 	priorityQueueCandle *model.PriorityQueue
 	OrderFeed           *order.Feed
+	telegram            _service.Telegram
 	dataFeed            *exchange.DataFeedSubscription
 }
 

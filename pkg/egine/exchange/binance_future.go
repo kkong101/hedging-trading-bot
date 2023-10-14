@@ -161,7 +161,7 @@ func (b *BinanceFuture) Cancel(order model.Order) error {
 	panic("implement me")
 }
 
-func (b *BinanceFuture) GetPairInfo(pair string) model.Pair {
+func (b *BinanceFuture) PairInfo(pair string) model.Pair {
 	//TODO implement me
 	panic("implement me")
 }
